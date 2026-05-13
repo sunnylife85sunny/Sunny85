@@ -1,8 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN = "8959184088:AAHi1zKx04lpmjEdEippBcT_Iy8lBlw80N8"
-
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Привіт 👋\nНапиши задачу для зустрічі.\n\nНаприклад:\nСтвори зустріч завтра о 15:00 з Іваном"
