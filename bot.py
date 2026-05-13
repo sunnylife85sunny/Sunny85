@@ -1,17 +1,34 @@
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
-import os
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TOKEN = "8959184088:AAHi1zKx04lpmjEdEippBcT_Iy8lBlw80N8"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Привет 👋\n\n"
-        "Бот успешно работает!"
+        "Привіт 👋\nНапиши задачу для зустрічі.\n\nНаприклад:\nСтвори зустріч завтра о 15:00 з Іваном"
     )
 
-app = Application.builder().token(TOKEN).build()
-app.add_handler(CommandHandler("start", start))
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text
 
-print("Bot started...")
+    response = f"""
+✅ Запит отримано
+
+Текст:
+{text}
+
+🤖 Тут буде AI-аналіз:
+- учасники
+- дата
+- час
+- створення meeting
+"""
+
+    await update.message.reply_text(response)
+
+app = ApplicationBuilder().token(TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
 app.run_polling()
